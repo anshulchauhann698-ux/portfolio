@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anshul Chauhan | Cloud & DevOps Engineer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Poppins & Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Three.js for 3D Background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        awsOrange: '#FF9900',
+                        electricBlue: '#3B82F6',
+                        cyanGlow: '#06B6D4',
+                        darkBg: '#050816',
+                        cardBg: '#0B1120',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050816;
+            color: #F3F4F6;
+            overflow-x: hidden;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050816;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1E293B;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3B82F6;
+        }
+        /* Glassmorphism utility */
+        .glass-card {
+            background: rgba(11, 17, 32, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 0 25px rgba(6, 182, 212, 0.15);
+            transform: translateY(-5px);
+        }
+        /* Canvas layer */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        /* Floating Animation */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(3deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        .floating-badge {
+            animation: float 5s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="antialiased font-sans selection:bg-electricBlue selection:text-white">
+
+    <!-- 3D Background Container -->
+    <div id="canvas-container"></div>
+
+    <!-- Header Navigation -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-darkBg/60 backdrop-blur-md border-b border-white/5">
+        <nav class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#" class="text-xl font-bold tracking-wider text-white flex items-center gap-2">
+                <span class="text-awsOrange font-mono">&lt;</span>AC<span class="text-electricBlue font-mono">/&gt;</span>
+                <span class="hidden sm:inline-block text-sm font-medium tracking-normal text-gray-400">Anshul Chauhan</span>
+            </a>
+            <div class="flex items-center gap-8 text-sm font-medium text-gray-300">
+                <a href="#about" class="hover:text-white transition-colors">About</a>
+                <a href="#skills" class="hover:text-white transition-colors">Skills</a>
+                <a href="#projects" class="hover:text-white transition-colors">Projects</a>
+                <a href="#certifications" class="hover:text-white transition-colors hidden md:inline-block">Certifications</a>
+                <a href="#contact" class="px-4 py-2 rounded-full bg-blue-600 hover:bg-blue-500 text-white transition-all duration-300 shadow-lg shadow-blue-600/20">Hire Me</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden px-6">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_0%,transparent_70%)] pointer-events-none"></div>
+        
+        <div class="max-w-5xl mx-auto text-center relative z-10 flex flex-col items-center">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cardBg border border-white/10 text-xs font-mono text-cyanGlow mb-6 tracking-wide uppercase shadow-inner">
+                <span class="w-2 h-2 rounded-full bg-cyanGlow animate-pulse"></span> Cloud & DevOps Engineering Portfolio
+            </div>
+
+            <h1 class="text-5xl md:text-8xl font-extrabold tracking-tight text-white mb-6">
+                Hi, I'm <span class="bg-gradient-to-r from-awsOrange via-electricBlue to-cyanGlow bg-clip-text text-transparent">Anshul Chauhan</span>
+            </h1>
+            
+            <!-- Dynamic Typing Effect Container -->
+            <p class="text-lg md:text-2xl font-semibold text-gray-200 mb-6 max-w-3xl tracking-wide min-h-[40px] flex items-center justify-center">
+                <span id="typing-text"></span><span class="text-electricBlue animate-[pulse_0.8s_infinite] font-light ml-1">|</span>
+            </p>
+
+            <p class="font-body text-base md:text-lg text-gray-400 max-w-2xl mb-10 leading-relaxed">
+                "I build scalable cloud infrastructure, automate deployments, and design secure systems using AWS and DevOps best practices."
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row items-center gap-4 justify-center w-full sm:w-auto">
+                <a href="#projects" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-awsOrange to-orange-600 font-semibold text-white transition-transform hover:scale-105 shadow-xl shadow-awsOrange/20 text-center">
+                    <i class="fa-solid fa-layer-group mr-2"></i> View Projects
+                </a>
+                <a href="#contact" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 font-semibold text-white transition-all text-center">
+                    Contact Me
+                </a>
+                <a href="#" class="w-full sm:w-auto px-8 py-4 rounded-xl border border-dashed border-gray-600 hover:border-electricBlue text-gray-400 hover:text-white text-sm transition-all text-center flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-download"></i> Download Resume
+                </a>
+            </div>
+        </div>
+
+        <!-- Floating Cloud / Tech Badges -->
+        <div class="absolute hidden xl:block w-full h-full inset-0 pointer-events-none">
+            <!-- Left Badges -->
+            <div class="floating-badge absolute top-1/4 left-[10%] bg-cardBg/80 backdrop-blur px-4 py-2 rounded-lg border border-awsOrange/30 text-awsOrange text-sm font-mono flex items-center gap-2 shadow-lg shadow-awsOrange/5" style="animation-delay: 0s;">
+                <i class="fa-brands fa-aws text-lg"></i> AWS
+            </div>
+            <div class="floating-badge absolute top-1/2 left-[5%] bg-cardBg/80 backdrop-blur px-4 py-2 rounded-lg border border-white/10 text-white text-sm font-mono flex items-center gap-2 shadow-md" style="animation-delay: 1.2s;">
+                <i class="fa-brands fa-python text-yellow-400"></i> Python
+            </div>
+            <div class="floating-badge absolute bottom-1/4 left-[12%] bg-cardBg/80 backdrop-blur px-4 py-2 rounded-lg border border-cyanGlow/30 text-cyanGlow text-sm font-mono flex items-center gap-2 shadow-md" style="animation-delay: 2.4s;">
+                <i class="fa-brands fa-docker text-blue-400"></i> Docker <span class="text-[9px] bg-white/10 px-1 rounded text-white">Future</span>
+            </div>
+            <!-- Right Badges -->
+            <div class="floating-badge absolute top-1/3 right-[10%] bg-cardBg/80 backdrop-blur px-4 py-2 rounded-lg border border-electricBlue/30 text-electricBlue text-sm font-mono flex items-center gap-2 shadow-lg shadow-electricBlue/5" style="animation-delay: 0.6s;">
+                <i class="fa-solid fa-code-branch"></i> CI/CD
+            </div>
+            <div class="floating-badge absolute top-1/2 right-[5%] bg-cardBg/80 backdrop-blur px-4 py-2 rounded-lg border border-white/10 text-white text-sm font-mono flex items-center gap-2 shadow-md" style="animation-delay: 1.8s;">
+                <i class="fa-brands fa-github"></i> GitHub
+            </div>
+            <div class="floating-badge absolute bottom-1/3 right-[12%] bg-cardBg/80 backdrop-blur px-4 py-2 rounded-lg border border-white/10 text-gray-400 text-sm font-mono flex items-center gap-2 shadow-md" style="animation-delay: 3s;">
+                <i class="fa-brands fa-linux"></i> Linux <span class="text-[9px] bg-white/10 px-1 rounded text-white">Future</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section id="about" class="py-24 max-w-7xl mx-auto px-6 relative">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-white mb-4 tracking-tight">About Me</h2>
+            <div class="w-16 h-1 bg-gradient-to-r from-awsOrange to-electricBlue mx-auto rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-5 relative group">
+                <div class="absolute inset-0 bg-gradient-to-tr from-awsOrange to-cyanGlow rounded-2xl opacity-20 blur-xl group-hover:opacity-30 transition-opacity"></div>
+                <div class="relative w-full aspect-square rounded-2xl bg-cardBg border border-white/10 overflow-hidden flex flex-col items-center justify-center p-8 text-center">
+                    <div class="w-24 h-24 rounded-full bg-gradient-to-b from-blue-600 to-cyan-500 flex items-center justify-center text-4xl text-white font-bold mb-4 shadow-xl shadow-blue-500/20">
+                        AC
+                    </div>
+                    <h3 class="text-xl font-bold text-white tracking-wide">Anshul Chauhan</h3>
+                    <p class="text-gray-400 text-sm mt-1">Cloud & DevOps Pioneer</p>
+                    <div class="w-full mt-6 p-4 rounded-xl bg-darkBg/50 border border-white/5 text-left font-mono text-xs text-gray-400 space-y-2">
+                        <p><span class="text-purple-400">status:</span> "Actively Building"</p>
+                        <p><span class="text-green-400">focus:</span> ["AWS", "IaC", "Automation"]</p>
+                        <p><span class="text-blue-400">location:</span> "Delhi NCR, India"</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="w-10 h-10 rounded-lg bg-orange-500/10 flex items-center justify-center text-awsOrange text-xl mb-4"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <h4 class="text-lg font-bold text-white mb-2 tracking-wide">CS Engineering Graduate</h4>
+                    <p class="font-body text-gray-400 text-sm leading-relaxed">Solid foundational understanding of computer systems, networking architectures, and modern backend computation structures.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-electricBlue text-xl mb-4"><i class="fa-brands fa-aws"></i></div>
+                    <h4 class="text-lg font-bold text-white mb-2 tracking-wide">AWS Certified</h4>
+                    <p class="font-body text-gray-400 text-sm leading-relaxed">Officially certified AWS Cloud Practitioner, natively skilled in building well-architected infrastructure configurations.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyanGlow text-xl mb-4"><i class="fa-solid fa-gears"></i></div>
+                    <h4 class="text-lg font-bold text-white mb-2 tracking-wide">DevOps Automation</h4>
+                    <p class="font-body text-gray-400 text-sm leading-relaxed">Replacing manual configuration with unified infrastructure deployment scripts, code pipelines, and robust validation rules.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 text-xl mb-4"><i class="fa-solid fa-infinity"></i></div>
+                    <h4 class="text-lg font-bold text-white mb-2 tracking-wide">Continuous Evolution</h4>
+                    <p class="font-body text-gray-400 text-sm leading-relaxed">Consistently pairing system scaling patterns with active exploration of machine learning pipelines and modern deployment strategies.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-24 max-w-7xl mx-auto px-6 relative">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-white mb-4 tracking-tight">Skill Matrix</h2>
+            <p class="font-body text-gray-400 text-sm max-w-md mx-auto">Core operational matrices and modern technologies I interact with actively.</p>
+            <div class="w-16 h-1 bg-gradient-to-r from-awsOrange to-electricBlue mx-auto rounded-full mt-4"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Cloud -->
+            <div class="glass-card p-6 rounded-2xl border border-awsOrange/20 shadow-[0_0_15px_rgba(255,153,0,0.05)]">
+                <h3 class="text-lg font-bold text-white mb-4 flex items-center justify-between tracking-wide">
+                    <span>Cloud Computing</span>
+                    <i class="fa-solid fa-cloud text-awsOrange"></i>
+                </h3>
+                <div class="flex flex-wrap gap-2">
+                    <span class="font-body px-3 py-1.5 rounded-lg bg-darkBg border border-white/5 text-xs text-gray-300">Amazon EC2</span>
+                    <span class="font-body px-3 py-1.5 rounded-lg bg-darkBg border border-white/5 text-xs text-gray-300">Amazon S3</span>
+                    <span class="font-body px-3 py-1.5 rounded-lg bg-darkBg border border-white/5 text-xs text-gray-300">AWS Lambda</span>
+                    <span class="font-body px-3 py-1.5 rounded-lg bg-darkBg border border-white/5 text-xs text-gray-300">AWS Cognito</span>
+                    <span class="font-body px-3 py-1.5 rounded-lg bg-darkBg border border-white/5 text-xs text-gray-300">IAM (Identity)</span>
+                    <span class="font-body px-3 py-1.5 rounded-lg bg-darkBg border border-white/5 text-xs text-gray-300">Amazon VPC</span>
+                    <span class="font-body px-3 py-1.5 rounded-lg bg-darkBg border border-white/5 text-xs text-gray-300">CloudWatch</span>
+                </div>
+            </div>
+
+            <!-- Infrastructure as Code -->
+            <div class="glass-card p-6 rounded-2xl">
+                <h3 class="text-lg font-bold text-white mb-4 flex items-center justify-between tracking-wide">
+                    <span>Infrastructure as Code</span>
+                    <i class="fa-solid fa-cubes text-blue-400"></i>
+                </h3>
+                <div class="flex flex-wrap gap-2">
+                    <span class="font-body px-3 py-1.5 rounded-lg bg-darkBg border border-white/5 text-xs text-gray-300">CloudFormation</span>
+                </div>
+            </div>
+
+            <!-- DevOps -->
+            <div class="glass-card p-6 rounded-2xl">
+                <h3 class="text-lg font-bold text-white mb-4 flex items-center justify-between tracking-wide">
+                    <span>DevOps & Pipelines</span>
+                    <i class="fa-solid fa-code-commit text-purple-400"></i>
+                </h3>
+                <div class="flex flex-wrap gap-2">
+                    <span class="font-body px-3 py-1.5 rounded-lg bg-darkBg border border-white/5 text-xs text-gray-300">CI/CD Pipelines</span>
+                    <span class="font-body px-3 py-1.5 rounded-lg bg-darkBg border border-white/5 text-xs text-gray-300">AWS CodePipeline</span>
+                    <span class="font-body px-3 py-1.5 rounded-lg bg-darkBg border border-white/5 text-xs text-gray-300">AWS CodeBuild</span>
+                    <span class="font-body px-3 py-1.5 rounded-lg bg-darkBg border border-white/5 text-xs text-gray-300">GitHub Actions</span>
+                </div>
+            </div>
+
+            <!-- Programming -->
+            <div class="glass-card p-6 rounded-2xl">
+                <h3 class="text-lg font-bold text-white mb-4 flex items-center justify-between tracking-wide">
+                    <span>Programming & Frameworks</span>
+                    <i class="fa-solid fa-code text-green-400"></i>
+                </h3>
+                <div class="flex flex-wrap gap-2">
+                    <span class="font-body px-3 py-1.5 rounded-lg bg-darkBg border border-white/5 text-xs text-gray-300">Python</span>
+                    <span class="font-body px-3 py-1.5 rounded-lg bg-darkBg border border-white/5 text-xs text-gray-300">Django</span>
+                    <span class="font-body px-3 py-1.5 rounded-lg bg-darkBg border border-white/5 text-xs text-gray-300">Scikit-Learn</span>
+                    <span class="font-body px-3 py-1.5 rounded-lg bg-darkBg border border-white/5 text-xs text-gray-300">Pandas</span>
+                </div>
+            </div>
+
+            <!-- Networking -->
+            <div class="glass-card p-6 rounded-2xl">
+                <h3 class="text-lg font-bold text-white mb-4 flex items-center justify-between tracking-wide">
+                    <span>Networking Protocols</span>
+                    <i class="fa-solid fa-network-wired text-cyanGlow"></i>
+                </h3>
+                <div class="flex flex-wrap gap-2">
+                    <span class="font-body px-3 py-1.5 rounded-lg bg-darkBg border border-white/5 text-xs text-gray-300">TCP/IP</span>
+                    <span class="font-body px-3 py-1.5 rounded-lg bg-darkBg border border-white/5 text-xs text-gray-300">DNS Resolution</span>
+                    <span class="font-body px-3 py-1.5 rounded-lg bg-darkBg border border-white/5 text-xs text-gray-300">VPC Subnetting</span>
+                </div>
+            </div>
+
+            <!-- Databases & Core -->
+            <div class="glass-card p-6 rounded-2xl">
+                <h3 class="text-lg font-bold text-white mb-4 flex items-center justify-between tracking-wide">
+                    <span>Databases & Logic</span>
+                    <i class="fa-solid fa-database text-yellow-500"></i>
+                </h3>
+                <div class="flex flex-wrap gap-2">
+                    <span class="font-body px-3 py-1.5 rounded-lg bg-darkBg border border-white/5 text-xs text-gray-300">MySQL</span>
+                    <span class="font-body px-3 py-1.5 rounded-lg bg-darkBg border border-white/5 text-xs text-gray-300">SQL Queries</span>
+                    <span class="font-body px-3 py-1.5 rounded-lg bg-darkBg border border-white/5 text-xs text-cyanGlow">Problem Solving</span>
+                    <span class="font-body px-3 py-1.5 rounded-lg bg-darkBg border border-white/5 text-xs text-cyanGlow">Adaptability</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Projects Section -->
+    <section id="projects" class="py-24 max-w-7xl mx-auto px-6 relative">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-white mb-4 tracking-tight">Featured Infrastructure Projects</h2>
+            <div class="w-16 h-1 bg-gradient-to-r from-awsOrange to-electricBlue mx-auto rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Project 1 -->
+            <div class="glass-card rounded-2xl overflow-hidden flex flex-col group">
+                <div class="h-48 bg-gradient-to-br from-orange-600/20 to-cardBg border-b border-white/5 p-6 relative overflow-hidden flex items-center justify-center">
+                    <div class="absolute opacity-10 text-8xl text-awsOrange"><i class="fa-solid fa-circle-nodes"></i></div>
+                    <div class="text-center z-10">
+                        <span class="px-3 py-1 rounded-full bg-awsOrange/10 border border-awsOrange/30 text-xs text-awsOrange font-mono">Serverless Flow</span>
+                        <div class="text-gray-500 text-xs mt-4 font-mono">S3 -> Lambda -> CloudWatch</div>
+                    </div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-3 group-hover:text-awsOrange transition-colors tracking-wide">Serverless File Processing System</h3>
+                        <ul class="font-body text-gray-400 text-xs leading-relaxed mb-6 space-y-2 list-disc pl-4">
+                            <li>Designed and implemented an event-driven serverless file processing solution using AWS Lambda and Amazon S3.</li>
+                            <li>Configured S3 event triggers to automatically invoke Lambda functions for file processing workflows.</li>
+                            <li>Applied IAM roles and least-privilege access policies to ensure secure service interactions.</li>
+                            <li>Monitored application logs, execution metrics, and error handling using Amazon CloudWatch.</li>
+                            <li>Improved automation by eliminating manual intervention through a scalable serverless architecture.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="flex flex-wrap gap-1.5 mb-6">
+                            <span class="text-[11px] font-mono px-2.5 py-0.5 rounded bg-white/5 text-gray-300">AWS Lambda</span>
+                            <span class="text-[11px] font-mono px-2.5 py-0.5 rounded bg-white/5 text-gray-300">S3</span>
+                            <span class="text-[11px] font-mono px-2.5 py-0.5 rounded bg-white/5 text-gray-300">IAM</span>
+                            <span class="text-[11px] font-mono px-2.5 py-0.5 rounded bg-white/5 text-gray-300">CloudWatch</span>
+                        </div>
+                        <div class="w-full">
+                            <a href="https://github.com/anshulchauhann698-ux" target="_blank" class="block w-full text-center text-xs py-2.5 rounded-lg bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-colors">
+                                <i class="fa-brands fa-github mr-1"></i> View on GitHub <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-0.5"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="glass-card rounded-2xl overflow-hidden flex flex-col group">
+                <div class="h-48 bg-gradient-to-br from-blue-600/20 to-cardBg border-b border-white/5 p-6 relative overflow-hidden flex items-center justify-center">
+                    <div class="absolute opacity-10 text-8xl text-electricBlue"><i class="fa-solid fa-cubes-stacked"></i></div>
+                    <div class="text-center z-10">
+                        <span class="px-3 py-1 rounded-full bg-blue-600/10 border border-blue-500/30 text-xs text-electricBlue font-mono">Declarative IaC</span>
+                        <div class="text-gray-500 text-xs mt-4 font-mono">YAML / JSON Stacks</div>
+                    </div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-3 group-hover:text-electricBlue transition-colors tracking-wide">Infrastructure Automation</h3>
+                        <ul class="font-body text-gray-400 text-xs leading-relaxed mb-6 space-y-2 list-disc pl-4">
+                            <li>Automated AWS infrastructure provisioning using Infrastructure as Code (IaC) principles with CloudFormation templates.</li>
+                            <li>Deployed and managed EC2 instances, VPCs, Security Groups, and IAM resources through reusable templates.</li>
+                            <li>Reduced manual configuration efforts and improved deployment consistency across environments.</li>
+                            <li>Gained hands-on experience in cloud infrastructure automation, resource management, and template-based deployments.</li>
+                            <li>Implemented version-controlled infrastructure definitions for repeatable and reliable provisioning.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="flex flex-wrap gap-1.5 mb-6">
+                            <span class="text-[11px] font-mono px-2.5 py-0.5 rounded bg-white/5 text-gray-300">CloudFormation</span>
+                            <span class="text-[11px] font-mono px-2.5 py-0.5 rounded bg-white/5 text-gray-300">EC2</span>
+                            <span class="text-[11px] font-mono px-2.5 py-0.5 rounded bg-white/5 text-gray-300">VPC</span>
+                            <span class="text-[11px] font-mono px-2.5 py-0.5 rounded bg-white/5 text-gray-300">IAM</span>
+                        </div>
+                        <div class="w-full">
+                            <a href="https://github.com/anshulchauhann698-ux" target="_blank" class="block w-full text-center text-xs py-2.5 rounded-lg bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-colors">
+                                <i class="fa-brands fa-github mr-1"></i> View on GitHub <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-0.5"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="glass-card rounded-2xl overflow-hidden flex flex-col group">
+                <div class="h-48 bg-gradient-to-br from-purple-600/20 to-cardBg border-b border-white/5 p-6 relative overflow-hidden flex items-center justify-center">
+                    <div class="absolute opacity-10 text-8xl text-purple-400"><i class="fa-solid fa-network-wired"></i></div>
+                    <div class="text-center z-10">
+                        <span class="px-3 py-1 rounded-full bg-purple-600/10 border border-purple-500/30 text-xs text-purple-400 font-mono">Continuous Delivery</span>
+                        <div class="text-gray-500 text-xs mt-4 font-mono">Webhook -> Build -> Deploy</div>
+                    </div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-3 group-hover:text-purple-400 transition-colors tracking-wide">CI/CD Pipeline Deployment</h3>
+                        <ul class="font-body text-gray-400 text-xs leading-relaxed mb-6 space-y-2 list-disc pl-4">
+                            <li>Designed and implemented a CI/CD pipeline to automate application build, testing, and deployment workflows.</li>
+                            <li>Integrated GitHub repositories with AWS CodePipeline for continuous integration and continuous delivery.</li>
+                            <li>Automated deployment processes using AWS CodeBuild and Amazon EC2, reducing manual deployment efforts.</li>
+                            <li>Monitored and troubleshot pipeline failures to improve deployment reliability and release consistency.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="flex flex-wrap gap-1.5 mb-6">
+                            <span class="text-[11px] font-mono px-2.5 py-0.5 rounded bg-white/5 text-gray-300">GitHub</span>
+                            <span class="text-[11px] font-mono px-2.5 py-0.5 rounded bg-white/5 text-gray-300">CodePipeline</span>
+                            <span class="text-[11px] font-mono px-2.5 py-0.5 rounded bg-white/5 text-gray-300">CodeBuild</span>
+                            <span class="text-[11px] font-mono px-2.5 py-0.5 rounded bg-white/5 text-gray-300">EC2</span>
+                        </div>
+                        <div class="w-full">
+                            <a href="https://github.com/anshulchauhann698-ux" target="_blank" class="block w-full text-center text-xs py-2.5 rounded-lg bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-colors">
+                                <i class="fa-brands fa-github mr-1"></i> View on GitHub <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-0.5"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications" class="py-24 max-w-7xl mx-auto px-6 relative">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-white mb-4 tracking-tight">Certifications & Milestones</h2>
+            <p class="font-body text-gray-400 text-sm max-w-lg mx-auto">Tracking structural industry benchmarks I have achieved or cataloged on my roadmap.</p>
+            <div class="w-16 h-1 bg-gradient-to-r from-awsOrange to-electricBlue mx-auto rounded-full mt-4"></div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <div class="p-4 rounded-xl bg-cardBg border border-awsOrange text-center flex flex-col items-center justify-center shadow-[0_0_15px_rgba(255,153,0,0.15)]">
+                <div class="w-12 h-12 rounded-full bg-awsOrange/20 text-awsOrange text-xl flex items-center justify-center mb-2"><i class="fa-solid fa-badge-check"></i></div>
+                <span class="text-xs font-bold text-white block">AWS Cloud Practitioner</span>
+                <span class="text-[9px] bg-awsOrange text-black px-1.5 py-0.5 rounded font-mono uppercase font-bold tracking-wider mt-2 block">Achieved</span>
+            </div>
+            <div class="p-4 rounded-xl bg-cardBg/30 border border-white/5 text-center flex flex-col items-center justify-center opacity-70 hover:opacity-100 transition-all">
+                <div class="w-12 h-12 rounded-full bg-white/5 text-gray-400 text-xl flex items-center justify-center mb-2"><i class="fa-brands fa-aws"></i></div>
+                <span class="text-xs font-semibold text-gray-300 block">AWS Solutions Architect</span>
+                <span class="text-[9px] text-electricBlue uppercase font-mono tracking-widest mt-2 block">Next Up</span>
+            </div>
+            <div class="p-4 rounded-xl bg-cardBg/30 border border-white/5 text-center flex flex-col items-center justify-center opacity-50">
+                <div class="w-12 h-12 rounded-full bg-white/5 text-gray-400 text-xl flex items-center justify-center mb-2"><i class="fa-brands fa-docker"></i></div>
+                <span class="text-xs font-semibold text-gray-300 block">Docker Certified</span>
+                <span class="text-[9px] text-gray-500 uppercase font-mono tracking-widest mt-2 block">Roadmap</span>
+            </div>
+            <div class="p-4 rounded-xl bg-cardBg/30 border border-white/5 text-center flex flex-col items-center justify-center opacity-50">
+                <div class="w-12 h-12 rounded-full bg-white/5 text-gray-400 text-xl flex items-center justify-center mb-2"><i class="fa-solid fa-dharmachakra"></i></div>
+                <span class="text-xs font-semibold text-gray-300 block">Kubernetes (CKA)</span>
+                <span class="text-[9px] text-gray-500 uppercase font-mono tracking-widest mt-2 block">Roadmap</span>
+            </div>
+            <div class="p-4 rounded-xl bg-cardBg/30 border border-white/5 text-center flex flex-col items-center justify-center opacity-50">
+                <div class="w-12 h-12 rounded-full bg-white/5 text-gray-400 text-xl flex items-center justify-center mb-2"><i class="fa-solid fa-box-open"></i></div>
+                <span class="text-xs font-semibold text-gray-300 block">HashiCorp Terraform</span>
+                <span class="text-[9px] text-gray-500 uppercase font-mono tracking-widest mt-2 block">Roadmap</span>
+            </div>
+            <div class="p-4 rounded-xl bg-cardBg/30 border border-white/5 text-center flex flex-col items-center justify-center opacity-50">
+                <div class="w-12 h-12 rounded-full bg-white/5 text-gray-400 text-xl flex items-center justify-center mb-2"><i class="fa-brands fa-linux"></i></div>
+                <span class="text-xs font-semibold text-gray-300 block">Linux Administration</span>
+                <span class="text-[9px] text-gray-500 uppercase font-mono tracking-widest mt-2 block">Roadmap</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Timeline -->
+    <section class="py-24 max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 relative">
+        <div>
+            <div class="flex items-center gap-3 mb-10">
+                <div class="w-8 h-8 rounded-lg bg-blue-600/20 text-electricBlue flex items-center justify-center text-sm"><i class="fa-solid fa-graduation-cap"></i></div>
+                <h3 class="text-2xl font-bold text-white tracking-wide">Education History</h3>
+            </div>
+            <div class="relative border-l border-white/10 pl-6 ml-4 space-y-8">
+                <!-- University Track -->
+                <div class="relative">
+                    <span class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-electricBlue border-4 border-darkBg"></span>
+                    <span class="text-xs font-mono text-electricBlue block mb-1">2022 - 2026 (Final Year)</span>
+                    <h4 class="text-lg font-bold text-white tracking-wide">Bachelor of Technology (B.Tech)</h4>
+                    <p class="text-sm text-gray-300 font-medium">Computer Science & Engineering</p>
+                    <p class="font-body text-xs text-gray-400 mt-1">COER University, Roorkee, Uttarakhand</p>
+                    <div class="inline-block px-2 py-0.5 rounded bg-white/5 border border-white/10 text-xs font-mono text-cyanGlow mt-2">CGPA: 7.49</div>
+                </div>
+                <!-- XII Track -->
+                <div class="relative">
+                    <span class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-gray-600 border-4 border-darkBg"></span>
+                    <span class="text-xs font-mono text-gray-400 block mb-1">Class XII (CBSE)</span>
+                    <h4 class="text-lg font-bold text-white tracking-wide">Senior Secondary Education</h4>
+                    <p class="font-body text-xs text-gray-400 mt-1">Dayawati Modi Academy-1, Modipuram, Meerut</p>
+                    <div class="inline-block px-2 py-0.5 rounded bg-white/5 border border-white/10 text-xs font-mono text-cyanGlow mt-2">Percentage: 83%</div>
+                </div>
+                <!-- X Track -->
+                <div class="relative">
+                    <span class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-gray-600 border-4 border-darkBg"></span>
+                    <span class="text-xs font-mono text-gray-400 block mb-1">Class X (CBSE)</span>
+                    <h4 class="text-lg font-bold text-white tracking-wide">Secondary School Education</h4>
+                    <p class="font-body text-xs text-gray-400 mt-1">Dayawati Modi Academy-1, Modipuram, Meerut</p>
+                    <div class="inline-block px-2 py-0.5 rounded bg-white/5 border border-white/10 text-xs font-mono text-cyanGlow mt-2">Percentage: 75%</div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="flex items-center gap-3 mb-10">
+                <div class="w-8 h-8 rounded-lg bg-orange-600/20 text-awsOrange flex items-center justify-center text-sm"><i class="fa-solid fa-rocket"></i></div>
+                <h3 class="text-2xl font-bold text-white tracking-wide">Cloud Development Focus</h3>
+            </div>
+            <div class="glass-card p-6 rounded-2xl relative overflow-hidden">
+                <div class="absolute -right-8 -bottom-8 text-8xl text-white/5 font-bold"><i class="fa-solid fa-terminal"></i></div>
+                <ul class="space-y-4 text-sm text-gray-300 relative z-10 font-body">
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-check text-awsOrange mt-1 text-xs flex-shrink-0"></i>
+                        <span><strong class="font-sans text-white">Personal AWS Labs:</strong> Deploying complex distributed architectures to mirror enterprise operational standards.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-check text-awsOrange mt-1 text-xs flex-shrink-0"></i>
+                        <span><strong class="font-sans text-white">Security-First Configurations:</strong> Implementing fine-grained Identity and Access Management execution matrices inside isolated environments.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-check text-awsOrange mt-1 text-xs flex-shrink-0"></i>
+                        <span><strong class="font-sans text-white">Cloud Automation:</strong> Parsing infrastructure scaling logic through custom script frameworks and declarative resource mapping.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 max-w-4xl mx-auto px-6 text-center relative">
+        <div class="absolute inset-0 bg-white/5 blur-[120px] rounded-full pointer-events-none"></div>
+        
+        <div class="glass-card p-12 rounded-3xl relative z-10 border border-white/10">
+            <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">
+                Let's Build Scalable Solutions Together.
+            </h2>
+            <p class="font-body text-gray-400 text-sm max-w-md mx-auto mb-10">
+                Open for internship opportunities, junior cloud roles, and infrastructure automation collaborations in Delhi NCR.
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto text-left mb-8 font-body">
+                <div class="p-4 rounded-xl bg-darkBg/50 border border-white/5 flex items-center gap-3">
+                    <i class="fa-solid fa-envelope text-electricBlue text-lg"></i>
+                    <div>
+                        <span class="text-[10px] uppercase font-mono tracking-wider block text-gray-500">Email</span>
+                        <a href="mailto:anshulchauhann698@gmail.com" class="text-sm font-medium text-white hover:underline">anshulchauhann698@gmail.com</a>
+                    </div>
+                </div>
+                <div class="p-4 rounded-xl bg-darkBg/50 border border-white/5 flex items-center gap-3">
+                    <i class="fa-solid fa-phone text-awsOrange text-lg"></i>
+                    <div>
+                        <span class="text-[10px] uppercase font-mono tracking-wider block text-gray-500">Phone</span>
+                        <a href="tel:+919045072676" class="text-sm font-medium text-white hover:underline">+91 XXXXX XXXXX</a>
+                    </div>
+                </div>
+                <div class="p-4 rounded-xl bg-darkBg/50 border border-white/5 flex items-center gap-3">
+                    <i class="fa-brands fa-linkedin text-cyanGlow text-lg"></i>
+                    <div>
+                        <span class="text-[10px] uppercase font-mono tracking-wider block text-gray-500">LinkedIn</span>
+                        <a href="https://www.linkedin.com/in/anshulchauhan16" target="_blank" class="text-sm font-medium text-white hover:underline">linkedin.com/in/anshulchauhan16</a>
+                    </div>
+                </div>
+                <div class="p-4 rounded-xl bg-darkBg/50 border border-white/5 flex items-center gap-3">
+                    <i class="fa-solid fa-location-dot text-red-400 text-lg"></i>
+                    <div>
+                        <span class="text-[10px] uppercase font-mono tracking-wider block text-gray-500">Location</span>
+                        <span class="text-sm font-medium text-white">Meerut / Delhi NCR, India</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-center gap-6">
+                <a href="https://github.com/anshulchauhann698-ux" target="_blank" class="text-gray-400 hover:text-white text-2xl transition-colors"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/anshulchauhan16" target="_blank" class="text-gray-400 hover:text-white text-2xl transition-colors"><i class="fa-brands fa-linkedin"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Premium Footer -->
+    <footer class="border-t border-white/5 bg-darkBg/80 backdrop-blur py-8 px-6 text-center text-xs text-gray-500 relative">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 font-body">
+            <p>&copy; Anshul Chauhan.</p>
+            <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="font-sans px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-gray-300 hover:text-white transition-colors flex items-center gap-2 text-xs">
+                Back to Top <i class="fa-solid fa-arrow-up text-[10px]"></i>
+            </button>
+        </div>
+    </footer>
+
+    <!-- Script Blocks: 3D Network Engine & Dynamic Typing Engine -->
+    <script>
+        // 1. Black & White 3D Space Background (Three.js)
+        let scene, camera, renderer, particleSystem, linesGeometry;
+        const particleCount = 130;
+        const particlesData = [];
+        const maxDistance = 85;
+        
+        let mouseX = 0, mouseY = 0;
+        let targetScrollY = 0;
+        let currentScrollY = 0;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX - window.innerWidth / 2) * 0.03;
+            mouseY = (e.clientY - window.innerHeight / 2) * 0.03;
+        });
+
+        window.addEventListener('scroll', () => {
+            targetScrollY = window.scrollY;
+        });
+
+        function init3D() {
+            const container = document.getElementById('canvas-container');
+            
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
+            camera.position.z = 380;
+
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+            const pGeometry = new THREE.BufferGeometry();
+            
+            for (let i = 0; i < particleCount; i++) {
+                const x = Math.random() * 600 - 300;
+                const y = Math.random() * 600 - 300;
+                const z = Math.random() * 600 - 300;
+
+                positions[i * 3] = x;
+                positions[i * 3 + 1] = y;
+                positions[i * 3 + 2] = z;
+
+                // Black & White configuration: Alternating purely monochrome levels of brightness
+                if(i % 3 === 0) { 
+                    colors[i * 3] = 1.0; colors[i * 3 + 1] = 1.0; colors[i * 3 + 2] = 1.0; // Pure White
+                } else if (i % 3 === 1) { 
+                    colors[i * 3] = 0.7; colors[i * 3 + 1] = 0.7; colors[i * 3 + 2] = 0.7; // Light Gray
+                } else { 
+                    colors[i * 3] = 0.4; colors[i * 3 + 1] = 0.4; colors[i * 3 + 2] = 0.4; // Mid Dark Gray
+                }
+
+                particlesData.push({
+                    velocity: new THREE.Vector3(-1 + Math.random() * 2, -1 + Math.random() * 2, -1 + Math.random() * 2).multiplyScalar(0.08)
+                });
+            }
+
+            pGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            pGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            const pMaterial = new THREE.PointsMaterial({
+                size: 3.2,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.7,
+                blending: THREE.AdditiveBlending
+            });
+
+            particleSystem = new THREE.Points(pGeometry, pMaterial);
+            scene.add(particleSystem);
+
+            linesGeometry = new THREE.BufferGeometry();
+            const lineMaterial = new THREE.LineBasicMaterial({
+                color: 0xffffff, // White/Gray lines matching monochrome styling
+                transparent: true,
+                opacity: 0.05,
+                blending: THREE.AdditiveBlending
+            });
+            const lineMesh = new THREE.LineSegments(linesGeometry, lineMaterial);
+            scene.add(lineMesh);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            container.appendChild(renderer.domElement);
+
+            animate();
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            currentScrollY += (targetScrollY - currentScrollY) * 0.08;
+
+            camera.position.x += (mouseX - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY - camera.position.y) * 0.05;
+            camera.position.z = 380 + (currentScrollY * 0.08);
+            
+            particleSystem.rotation.y = currentScrollY * 0.0012;
+            particleSystem.rotation.x = currentScrollY * 0.0004;
+
+            const positions = particleSystem.geometry.attributes.position.array;
+            const linePositions = [];
+
+            for (let i = 0; i < particleCount; i++) {
+                positions[i * 3] += particlesData[i].velocity.x;
+                positions[i * 3 + 1] += particlesData[i].velocity.y;
+                positions[i * 3 + 2] += particlesData[i].velocity.z;
+
+                if (positions[i * 3] < -300 || positions[i * 3] > 300) particlesData[i].velocity.x *= -1;
+                if (positions[i * 3 + 1] < -300 || positions[i * 3 + 1] > 300) particlesData[i].velocity.y *= -1;
+                if (positions[i * 3 + 2] < -300 || positions[i * 3 + 2] > 300) particlesData[i].velocity.z *= -1;
+
+                for (let j = i + 1; j < particleCount; j++) {
+                    const dx = positions[i * 3] - positions[j * 3];
+                    const dy = positions[i * 3 + 1] - positions[j * 3 + 1];
+                    const dz = positions[i * 3 + 2] - positions[j * 3 + 2];
+                    const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+                    if (dist < maxDistance) {
+                        linePositions.push(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]);
+                        linePositions.push(positions[j * 3], positions[j * 3 + 1], positions[j * 3 + 2]);
+                    }
+                }
+            }
+
+            particleSystem.geometry.attributes.position.needsUpdate = true;
+            linesGeometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+            linesGeometry.computeBoundingSphere();
+
+            camera.lookAt(scene.position);
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // 2. Typing Effect Logic Engine
+        function initTypingEffect() {
+            const words = ["Cloud Engineer", "DevOps Enthusiast", "AWS Certified Practitioner", "Python Backend Developer"];
+            let wordIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            const targetElement = document.getElementById("typing-text");
+            let typeSpeed = 100; 
+
+            function type() {
+                const currentWord = words[wordIndex];
+                
+                if (isDeleting) {
+                    targetElement.textContent = currentWord.substring(0, charIndex - 1);
+                    charIndex--;
+                    typeSpeed = 40;
+                } else {
+                    targetElement.textContent = currentWord.substring(0, charIndex + 1);
+                    charIndex++;
+                    typeSpeed = 90;
+                }
+
+                if (!isDeleting && charIndex === currentWord.length) {
+                    typeSpeed = 2200;
+                    isDeleting = true;
+                } 
+                else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    wordIndex = (wordIndex + 1) % words.length;
+                    typeSpeed = 350;
+                }
+
+                setTimeout(type, typeSpeed);
+            }
+
+            setTimeout(type, 800);
+        }
+
+        // Initialize engines when frame tree resolves
+        document.addEventListener("DOMContentLoaded", () => {
+            init3D();
+            initTypingEffect();
+        });
+    </script>
+</body>
+</html>
